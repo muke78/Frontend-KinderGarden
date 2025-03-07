@@ -1,0 +1,13 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🚀 Ejecutando Prettier para formateo..."
+bun run prettier --write .
+
+echo "🛠️ Ejecutando pruebas..."
+if ! bun test; then
+  echo "❌ Pruebas fallidas. No se puede hacer commit."
+  exit 1
+fi
+
+echo "✅ Todo bien. Listo para el commit."
