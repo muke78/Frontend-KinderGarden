@@ -1,5 +1,4 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
 echo "🔍 Validando mensaje de commit..."
 commit_regex="^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert): .{10,}$"
@@ -13,3 +12,4 @@ if ! echo "$commit_msg" | grep -Eq "$commit_regex"; then
 fi
 
 echo "✅ Mensaje válido."
+

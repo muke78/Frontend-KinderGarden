@@ -1,13 +1,29 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
-echo "🚀 Ejecutando Prettier para formateo..."
+echo "🔍 Verificando archivos antes del commit..."
+
+# # Bloquear commits de archivos .env
+# if git diff --cached --name-only | grep -q ".env"; then
+#   echo "❌ No puedes hacer commit de archivos .env"
+#   exit 1
+# fi
+
+# Formatear código antes del commit
+echo "🚀 Ejecutando Prettier..."
 bun run prettier --write .
 
-echo "🛠️ Ejecutando pruebas..."
+# Ejecutar pruebas antes del commit
+echo "🧪 Ejecutando pruebas..."
 if ! bun test; then
   echo "❌ Pruebas fallidas. No se puede hacer commit."
   exit 1
 fi
 
-echo "✅ Todo bien. Listo para el commit."
+# Verificar que el código esté actualizado antes del push
+echo "🔄 Verificando que tu código esté actualizado..."
+if ! git pull; then
+  echo "❌ Error al actualizar el código. Revisa los conflictos."
+  exit 1
+fi
+
+echo "✅ Código actualizado. Todo listo para el commit."
